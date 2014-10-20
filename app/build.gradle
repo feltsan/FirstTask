@@ -21,4 +21,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.squareup.picasso:picasso:2.3.4'
+    compile 'com.github.kevinsawicki:halligan:0.5'
 }

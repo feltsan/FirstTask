@@ -1,36 +1,67 @@
 package com.example.john.firsttask;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-
+import com.example.john.firsttask.fragment.AskFragment;
+import com.example.john.firsttask.fragment.BlankFragment;
+import com.example.john.firsttask.fragment.FragmentList;
 
 public class MainActivity extends Activity {
+
+    private FragmentMessBroadcastReceiver fragmentMessBroadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
 
+        fragmentMessBroadcastReceiver = new FragmentMessBroadcastReceiver();
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        int orient = this.getResources().getConfiguration().orientation;
+//        boolean internet_acces = getSystemService(WIFI_SERVICE).
+        if (orient == 1) {
+            final Fragment fragment = new FragmentList();
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.container, fragment);
+            ft.commitAllowingStateLoss();
+        } else {
+            final Fragment fragment = new BlankFragment();
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.container, fragment);
+            ft.commitAllowingStateLoss();
         }
-        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("SendCaseId");
+        registerReceiver(fragmentMessBroadcastReceiver, filter);
+
+    }
+
+    class FragmentMessBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals("SendCaseId")) {
+                Bundle bundle = new Bundle();
+                bundle.putString("caseId", intent.getStringExtra("caseId"));
+                Fragment fragment = new AskFragment();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.container, fragment);
+                ft.addToBackStack(null);
+                fragment.setArguments(bundle);
+                ft.commitAllowingStateLoss();
+            }
+        }
     }
 }

@@ -79,6 +79,11 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 20 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="halligan-0.5" level="project" />
+    <orderEntry type="library" exported="" name="picasso-2.3.4" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.2.3" level="project" />
+    <orderEntry type="library" exported="" name="http-request-5.4" level="project" />
+    <orderEntry type="library" exported="" name="handy-uri-templates-1.1.6" level="project" />
   </component>
 </module>
 
