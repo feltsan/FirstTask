@@ -112,7 +112,6 @@ public class AskFragment extends Fragment {
 
             }
             return jsonObject;
-
         }
 
         protected void onPostExecute(JSONObject result) {

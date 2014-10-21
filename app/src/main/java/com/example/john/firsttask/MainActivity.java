@@ -8,9 +8,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
 import com.example.john.firsttask.fragment.AskFragment;
 import com.example.john.firsttask.fragment.BlankFragment;
 import com.example.john.firsttask.fragment.FragmentList;
+
 
 public class MainActivity extends Activity {
 
@@ -20,12 +24,10 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         fragmentMessBroadcastReceiver = new FragmentMessBroadcastReceiver();
-
         int orient = this.getResources().getConfiguration().orientation;
-//        boolean internet_acces = getSystemService(WIFI_SERVICE).
-        if (orient == 1) {
+
+         if (orient == 1) {
             final Fragment fragment = new FragmentList();
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.replace(R.id.container, fragment);
@@ -36,6 +38,7 @@ public class MainActivity extends Activity {
             ft.replace(R.id.container, fragment);
             ft.commitAllowingStateLoss();
         }
+
     }
 
     @Override
@@ -64,4 +67,8 @@ public class MainActivity extends Activity {
             }
         }
     }
+
+
+
+
 }
